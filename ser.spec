@@ -1,7 +1,7 @@
 #
 # Conditional build:
-# _without_shm_mmap		Don't use mmap() on SHM. Neccesary for
-#				kernel v2.2.
+%bcond_without	shm_mmap	# Don't use mmap() on SHM. Neccesary for kernel v2.2.
+#
 Summary:	SIP proxy, redirect and registrar server
 Summary(pl):	Serwer SIP rejestruj±cy, przekierowuj±cy i robi±cy proxy
 Name:		ser
@@ -80,7 +80,7 @@ Modu³ Jabber do SER.
 %prep
 %setup -q
 %patch0 -p1
-%{?_without_shm_mmap:%patch1 -p1}
+%{!?with_shm_mmap:%patch1 -p1}
 %patch2 -p1
 
 %build
