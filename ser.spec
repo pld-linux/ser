@@ -1,18 +1,25 @@
+# conditional build
+# _without_shm_mmap		Don't use mmap() on SHM. Neccesary for
+#				kernel v2.2.
 Summary:	SIP proxy, redirect and registrar server
 Summary(pl):	Serwer SIP rejestruj±cy, przekierowuj±cy i robi±cy proxy
 Name:		ser
 Version:	0.8.10
-Release:	0.1
+Release:	3
 License:	GPL v2
 Group:		Networking/Daemons
 Source0:	ftp://ftp.berlios.de/pub/ser/%{version}/src/%{name}-%{version}_src.tar.gz
 # Source0-md5:	a3a06a9bc15f82321a6d9bc31d582c33
-#Source1:	%{name}.init
-#Source2:	%{name}.sysconfig
+Source1:	%{name}.init
+Source2:	%{name}.sysconfig
+Patch0:		%{name}-paths.patch
+Patch1:		%{name}-shm.patch
 URL:		http://www.iptel.org/ser/
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	mysql-devel
+BuildRequires:	expat-devel
+BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -28,21 +35,60 @@ population. SER's configuration ability meets needs of a whole range
 of scenarios including small-office use, enterprise PBX replacements
 and carrier services.
 
+%package mysql
+Summary:	SER MySQL module
+Summary(pl):	Modu³ MySQL do SER
+Group:		Networking/Daemons
+Requires:	%{name} = %{version}
+
+%description mysql
+
+%description mysql -l pl
+
+%package jabber
+Summary:	SER Jabber module
+Summary(pl):	Modu³ Jabber do SER
+Group:		Networking/Daemons
+Requires:	%{name} = %{version}
+
+%description jabber
+
+%description jabber -l pl
+
 %prep
 %setup -q
+%patch0 -p1
+%{?_without_shm_mmap:%patch1 -p1}
 
 %build
-%{__make} prefix=%{_prefix}
+%{__make} all \
+	PREFIX="%{_prefix}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_sbindir},%{_libdir},%{_sysconfdir}/{ser,sysconfig,rc.d/init.d}}
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{ser,sysconfig,rc.d/init.d}
+
+find . -name CVS -0 | xargs -0 rm -rf
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	PREFIX="%{_prefix}" \
+	basedir=$RPM_BUILD_ROOT
 
-#install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ser
-#install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ser
+for i in modules/*; do \
+	[ -f modules/$i/README ] && cp -f modules/$i/README README.$i; \
+done
+
+#cd doc/serdev
+#docbook2html serdev.sgml
+#rm -f serdev.sgml
+#cd ../seruser
+#docbook2html seruser.sgml
+#rm -f seruser.sgml
+#cd ../..
+
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ser
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/ser
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -65,15 +111,36 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS
-#%doc README doc/*.{html,gif,css} ser/{BUGS,README.*,TODO} scripts
-#%doc tools/{addsipuser/*.html,canonicalize/*.html,ishere/*.html,tracker/*.html}
-#%attr(755,root,root) %{_bindir}/base64-*
-#%attr(755,root,root) %{_sbindir}/*
-#%dir %{_sysconfdir}/ser
-#%config(noreplace) %{_sysconfdir}/ser/ser.conf
-#%config(noreplace) /etc/sysconfig/ser
-#%attr(754,root,root) /etc/rc.d/init.d/ser
-#%dir /var/lib/ser
-#%dir /var/lib/ser/logs
-#/var/lib/ser/gateways.sample
+%doc README* ISSUES TODO
+%doc doc/ser* scripts examples
+%attr(755,root,root) %{_sbindir}/*
+%dir %{_sysconfdir}/ser
+%config(noreplace) %{_sysconfdir}/ser/ser.cfg
+%config(noreplace) /etc/sysconfig/ser
+%attr(754,root,root) /etc/rc.d/init.d/ser
+%dir %{_libdir}/ser
+%dir %{_libdir}/ser/modules
+%attr(755,root,root) %{_libdir}/ser/modules/acc.so
+%attr(755,root,root) %{_libdir}/ser/modules/auth.so
+%attr(755,root,root) %{_libdir}/ser/modules/exec.so
+%attr(755,root,root) %{_libdir}/ser/modules/im.so
+%attr(755,root,root) %{_libdir}/ser/modules/maxfwd.so
+%attr(755,root,root) %{_libdir}/ser/modules/msilo.so
+%attr(755,root,root) %{_libdir}/ser/modules/pike.so
+%attr(755,root,root) %{_libdir}/ser/modules/print.so
+%attr(755,root,root) %{_libdir}/ser/modules/registrar.so
+%attr(755,root,root) %{_libdir}/ser/modules/rr.so
+%attr(755,root,root) %{_libdir}/ser/modules/sl.so
+%attr(755,root,root) %{_libdir}/ser/modules/sms.so
+%attr(755,root,root) %{_libdir}/ser/modules/textops.so
+%attr(755,root,root) %{_libdir}/ser/modules/tm.so
+%attr(755,root,root) %{_libdir}/ser/modules/usrloc.so
+%{_mandir}/man*/*
+
+%files jabber
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/ser/modules/jabber.so
+
+%files mysql
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/ser/modules/mysql.so
