@@ -15,6 +15,7 @@ Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-paths.patch
 Patch1:		%{name}-shm.patch
+Patch2:		%{name}-bison.patch
 URL:		http://www.iptel.org/ser/
 BuildRequires:	bison
 BuildRequires:	expat-devel
@@ -80,10 +81,12 @@ Modu³ Jabber do SER.
 %setup -q
 %patch0 -p1
 %{?_without_shm_mmap:%patch1 -p1}
+%patch2 -p1
 
 %build
 %{__make} all \
-	PREFIX="%{_prefix}"
+	PREFIX="%{_prefix}" \
+	CFLAGS="%{rpmcflags} -Wcast-align"
 
 %install
 rm -rf $RPM_BUILD_ROOT
