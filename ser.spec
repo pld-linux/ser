@@ -6,6 +6,7 @@ Release:	0.1
 License:	GPL v2
 Group:		Networking/Daemons
 Source0:	ftp://ftp.berlios.de/pub/ser/%{version}/src/%{name}-%{version}_src.tar.gz
+# Source0-md5:	a3a06a9bc15f82321a6d9bc31d582c33
 #Source1:	%{name}.init
 #Source2:	%{name}.sysconfig
 URL:		http://www.iptel.org/ser/
