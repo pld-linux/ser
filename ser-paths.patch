@@ -1,0 +1,59 @@
+diff -Naur ser-0.8.10/Makefile ser-0.8.10-p/Makefile
+--- ser-0.8.10/Makefile	Tue Nov 12 13:31:25 2002
++++ ser-0.8.10-p/Makefile	Tue Jun 17 15:08:19 2003
+@@ -133,12 +133,12 @@
+ 	scripts/ser_mysql.sh create
+ 	-@echo "Done"
+ 
+-mk-install-dirs: $(cfg-prefix)/$(cfg-dir) $(bin-prefix)/$(bin-dir) \
++mk-install-dirs: $(cfg-dir) $(bin-prefix)/$(bin-dir) \
+ 			$(modules-prefix)/$(modules-dir) $(doc-prefix)/$(doc-dir) \
+ 			$(man-prefix)/$(man-dir)/man8 $(man-prefix)/$(man-dir)/man5
+ 
+-$(cfg-prefix)/$(cfg-dir): 
+-		mkdir -p $(cfg-prefix)/$(cfg-dir)
++$(cfg-dir): 
++		mkdir -p $(cfg-dir)
+ 
+ $(bin-prefix)/$(bin-dir):
+ 		mkdir -p $(bin-prefix)/$(bin-dir)
+@@ -156,11 +156,11 @@
+ $(man-prefix)/$(man-dir)/man5:
+ 		mkdir -p $(man-prefix)/$(man-dir)/man5
+ 
+-install-cfg: $(cfg-prefix)/$(cfg-dir)
++install-cfg: $(cfg-dir)
+ 		sed -e "s#/usr/lib/ser/modules/#$(modules-target)#g" \
+-			< etc/ser.cfg > $(cfg-prefix)/$(cfg-dir)ser.cfg
+-		chmod 644 $(cfg-prefix)/$(cfg-dir)ser.cfg
+-#		$(INSTALL-CFG) etc/ser.cfg $(cfg-prefix)/$(cfg-dir)
++			< etc/ser.cfg > $(cfg-dir)ser.cfg
++		chmod 644 $(cfg-dir)ser.cfg
++#		$(INSTALL-CFG) etc/ser.cfg $(cfg-dir)
+ 
+ install-bin: $(bin-prefix)/$(bin-dir) utils/gen_ha1/gen_ha1
+ 		$(INSTALL-BIN) ser $(bin-prefix)/$(bin-dir)
+diff -Naur ser-0.8.10/Makefile.defs ser-0.8.10-p/Makefile.defs
+--- ser-0.8.10/Makefile.defs	Tue Nov 12 18:21:28 2002
++++ ser-0.8.10-p/Makefile.defs	Tue Jun 17 15:08:32 2003
+@@ -33,7 +33,7 @@
+ ut-prefix = $(basedir)$(prefix)
+ 
+ # dirs
+-cfg-dir = etc/ser/
++cfg-dir = $(basedir)/etc/ser/
+ bin-dir = sbin/
+ modules-dir = lib/ser/modules/
+ ifeq ($(OS), linux)
+diff -Naur ser-0.8.10/Makefile.defs ser-0.8.10-p/Makefile.defs
+--- ser-0.8.10/Makefile.defs	Tue Jun 17 15:12:55 2003
++++ ser-0.8.10-p/Makefile.defs	Tue Jun 17 15:13:11 2003
+@@ -45,7 +45,7 @@
+ endif
+ ut-prefix = bin/
+ # target dirs for various stuff
+-cfg-target = $(prefix)/$(cfg-dir)
++cfg-target = $(cfg-dir)
+ modules-target = $(prefix)/$(modules-dir)
+ 
+ 
