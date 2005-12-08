@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# ser		This shell script takes care of starting and stopping sr 
+# ser		This shell script takes care of starting and stopping ser
 #
 # chkconfig:	2345 20 80
 # description:	ser
