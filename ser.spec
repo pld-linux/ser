@@ -22,8 +22,8 @@ BuildRequires:	expat-devel
 BuildRequires:	flex
 BuildRequires:	mysql-devel
 BuildRequires:	zlib-devel
-PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -44,13 +44,13 @@ SIP Express Router (ser) to wysoko wydajny, konfigurowalny, darmowy
 serwer SIP (RFC 3261). Mo¿e dzia³aæ jako serwer rejestruj±cy, proxy
 lub przekierowuj±cy. Mo¿liwo¶ci SER-a obejmuj± interfejs serwera
 aplikacji, obs³ugê obecno¶ci, bramkê SMS, bramkê SIMPLE2Jabber,
-rozliczanie przez RADIUS/syslog oraz autoryzacjê, monitorowanie
-stanu serwera, bezpieczeñstwo FCP itp. Jest dostêpny oparty na WWW
-serwer opiekuj±cy siê u¿ytkownikami - serweb. Wydajno¶æ pozwala na
-raczenie sobie z obci±¿eniem operacyjnym, takim jak uszkodzone
-elementy sieci, ataki, zaniki zasilania i szybko rosn±ce grono
-u¿ytkowników. Mo¿liwo¶ci konfiguracyjne SER-a zaspokajaj± potrzeby
-w szerokim zakresie scenariuszy w³±cznie z u¿yciem w ma³ych biurach,
+rozliczanie przez RADIUS/syslog oraz autoryzacjê, monitorowanie stanu
+serwera, bezpieczeñstwo FCP itp. Jest dostêpny oparty na WWW serwer
+opiekuj±cy siê u¿ytkownikami - serweb. Wydajno¶æ pozwala na raczenie
+sobie z obci±¿eniem operacyjnym, takim jak uszkodzone elementy sieci,
+ataki, zaniki zasilania i szybko rosn±ce grono u¿ytkowników.
+Mo¿liwo¶ci konfiguracyjne SER-a zaspokajaj± potrzeby w szerokim
+zakresie scenariuszy w³±cznie z u¿yciem w ma³ych biurach,
 zastêpowaniem powa¿nych PBX-ów i us³ug transportowych.
 
 %package mysql
@@ -137,8 +137,8 @@ fi
 %doc README* ISSUES TODO doc/ser* scripts examples
 %attr(755,root,root) %{_sbindir}/*
 %dir %{_sysconfdir}/ser
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ser/ser.cfg
-%config(noreplace) %verify(not size mtime md5) /etc/sysconfig/ser
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ser/ser.cfg
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ser
 %attr(754,root,root) /etc/rc.d/init.d/ser
 %dir %{_libdir}/ser
 %dir %{_libdir}/ser/modules
