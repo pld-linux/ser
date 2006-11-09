@@ -1,0 +1,2 @@
+- initial, almoust raw version.
+  TODO: patch that separate make and make install, DESTDIR support
