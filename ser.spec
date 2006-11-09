@@ -57,7 +57,7 @@ zastêpowaniem powa¿nych PBX-ów i us³ug transportowych.
 Summary:	SER MySQL module
 Summary(pl):	Modu³ MySQL do SER
 Group:		Networking/Daemons
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description mysql
 MySQL module for SER.
@@ -69,7 +69,7 @@ Modu³ MySQL do SER.
 Summary:	SER Jabber module
 Summary(pl):	Modu³ Jabber do SER
 Group:		Networking/Daemons
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description jabber
 Jabber module for SER.
