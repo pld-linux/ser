@@ -3,7 +3,7 @@
 %bcond_without	shm_mmap	# Don't use mmap() on SHM. Neccesary for kernel v2.2.
 #
 Summary:	SIP proxy, redirect and registrar server
-Summary(pl):	Serwer SIP rejestruj±cy, przekierowuj±cy i robi±cy proxy
+Summary(pl.UTF-8):   Serwer SIP rejestrujÄ…cy, przekierowujÄ…cy i robiÄ…cy proxy
 Name:		ser
 Version:	0.8.10
 Release:	3
@@ -39,43 +39,43 @@ configuration ability meets needs of a whole range of scenarios
 including small-office use, enterprise PBX replacements and carrier
 services.
 
-%description -l pl
+%description -l pl.UTF-8
 SIP Express Router (ser) to wysoko wydajny, konfigurowalny, darmowy
-serwer SIP (RFC 3261). Mo¿e dzia³aæ jako serwer rejestruj±cy, proxy
-lub przekierowuj±cy. Mo¿liwo¶ci SER-a obejmuj± interfejs serwera
-aplikacji, obs³ugê obecno¶ci, bramkê SMS, bramkê SIMPLE2Jabber,
-rozliczanie przez RADIUS/syslog oraz autoryzacjê, monitorowanie stanu
-serwera, bezpieczeñstwo FCP itp. Jest dostêpny oparty na WWW serwer
-opiekuj±cy siê u¿ytkownikami - serweb. Wydajno¶æ pozwala na raczenie
-sobie z obci±¿eniem operacyjnym, takim jak uszkodzone elementy sieci,
-ataki, zaniki zasilania i szybko rosn±ce grono u¿ytkowników.
-Mo¿liwo¶ci konfiguracyjne SER-a zaspokajaj± potrzeby w szerokim
-zakresie scenariuszy w³±cznie z u¿yciem w ma³ych biurach,
-zastêpowaniem powa¿nych PBX-ów i us³ug transportowych.
+serwer SIP (RFC 3261). MoÅ¼e dziaÅ‚aÄ‡ jako serwer rejestrujÄ…cy, proxy
+lub przekierowujÄ…cy. MoÅ¼liwoÅ›ci SER-a obejmujÄ… interfejs serwera
+aplikacji, obsÅ‚ugÄ™ obecnoÅ›ci, bramkÄ™ SMS, bramkÄ™ SIMPLE2Jabber,
+rozliczanie przez RADIUS/syslog oraz autoryzacjÄ™, monitorowanie stanu
+serwera, bezpieczeÅ„stwo FCP itp. Jest dostÄ™pny oparty na WWW serwer
+opiekujÄ…cy siÄ™ uÅ¼ytkownikami - serweb. WydajnoÅ›Ä‡ pozwala na raczenie
+sobie z obciÄ…Å¼eniem operacyjnym, takim jak uszkodzone elementy sieci,
+ataki, zaniki zasilania i szybko rosnÄ…ce grono uÅ¼ytkownikÃ³w.
+MoÅ¼liwoÅ›ci konfiguracyjne SER-a zaspokajajÄ… potrzeby w szerokim
+zakresie scenariuszy wÅ‚Ä…cznie z uÅ¼yciem w maÅ‚ych biurach,
+zastÄ™powaniem powaÅ¼nych PBX-Ã³w i usÅ‚ug transportowych.
 
 %package mysql
 Summary:	SER MySQL module
-Summary(pl):	Modu³ MySQL do SER
+Summary(pl.UTF-8):   ModuÅ‚ MySQL do SER
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 
 %description mysql
 MySQL module for SER.
 
-%description mysql -l pl
-Modu³ MySQL do SER.
+%description mysql -l pl.UTF-8
+ModuÅ‚ MySQL do SER.
 
 %package jabber
 Summary:	SER Jabber module
-Summary(pl):	Modu³ Jabber do SER
+Summary(pl.UTF-8):   ModuÅ‚ Jabber do SER
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 
 %description jabber
 Jabber module for SER.
 
-%description jabber -l pl
-Modu³ Jabber do SER.
+%description jabber -l pl.UTF-8
+ModuÅ‚ Jabber do SER.
 
 %prep
 %setup -q
