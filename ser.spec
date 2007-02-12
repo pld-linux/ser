@@ -3,7 +3,7 @@
 %bcond_without	shm_mmap	# Don't use mmap() on SHM. Neccesary for kernel v2.2.
 #
 Summary:	SIP proxy, redirect and registrar server
-Summary(pl.UTF-8):   Serwer SIP rejestrujący, przekierowujący i robiący proxy
+Summary(pl.UTF-8):	Serwer SIP rejestrujący, przekierowujący i robiący proxy
 Name:		ser
 Version:	0.8.10
 Release:	3
@@ -55,7 +55,7 @@ zastępowaniem poważnych PBX-ów i usług transportowych.
 
 %package mysql
 Summary:	SER MySQL module
-Summary(pl.UTF-8):   Moduł MySQL do SER
+Summary(pl.UTF-8):	Moduł MySQL do SER
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 
@@ -67,7 +67,7 @@ Moduł MySQL do SER.
 
 %package jabber
 Summary:	SER Jabber module
-Summary(pl.UTF-8):   Moduł Jabber do SER
+Summary(pl.UTF-8):	Moduł Jabber do SER
 Group:		Networking/Daemons
 Requires:	%{name} = %{version}-%{release}
 
