@@ -168,6 +168,10 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/ser
 %dir %{_libdir}/ser
 %dir %{_libdir}/ser/modules
+
+# Put explict list here without using globs (to avoid missing some important
+# module since build doesn't fail even if module compilation fails) !
+
 %attr(755,root,root) %{_libdir}/ser/modules/acc.so
 %attr(755,root,root) %{_libdir}/ser/modules/auth.so
 %attr(755,root,root) %{_libdir}/ser/modules/auth_db.so
