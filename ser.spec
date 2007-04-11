@@ -19,6 +19,7 @@ BuildRequires:	libpqxx-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	mysql-devel
 BuildRequires:	radiusclient-ng-devel
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	zlib-devel
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
@@ -104,6 +105,8 @@ Moduł Jabber do SER.
 %patch0 -p1
 sed -i -e 's#modules-dir = lib/ser/modules/#modules-dir = %{_lib}/ser/modules/#g' Makefile.defs
 
+find -type d -name CVS | xargs rm -rf
+
 %build
 %{__make} all \
 	exclude_modules="" \
@@ -114,8 +117,6 @@ sed -i -e 's#modules-dir = lib/ser/modules/#modules-dir = %{_lib}/ser/modules/#g
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{ser,sysconfig,rc.d/init.d}
-
-find . -type d -name CVS -exec rm -rf "{}" ";"
 
 %{__make} install \
 	exclude_modules="" \
@@ -143,17 +144,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add ser
-if [ -f /var/lock/subsys/ser ]; then
-	etc/rc.d/init.d/ser restart 1>&2
-else
-	echo "Run \"/etc/rc.d/init.d/ser start\" to start sip Daemon."
-fi
+%service ser restart "sip Daemon"
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/ser ]; then
-		/etc/rc.d/init.d/ser stop 1>&2
-fi
+	%service openser stop
 	/sbin/chkconfig --del ser
 fi
 
