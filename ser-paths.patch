@@ -68,3 +68,26 @@ diff -urN ser-0.9.6.org/Makefile.defs ser-0.9.6/Makefile.defs
  bin-target = $(prefix)/$(bin-dir)
  modules-target = $(prefix)/$(modules-dir)
  doc-target = $(prefix)/$(doc-dir)
+diff -urN ser-0.9.6.org/Makefile ser-0.9.6/Makefile
+--- ser-0.9.6.org/Makefile	2005-11-02 18:45:38.000000000 +0100
++++ ser-0.9.6/Makefile	2007-04-12 20:15:42.315305336 +0200
+@@ -141,7 +141,8 @@
+ 
+ .PHONY: modules
+ modules:
+-	-@for r in $(modules) "" ; do \
++	@set -e; \
++	for r in $(modules) "" ; do \
+ 		if [ -n "$$r" ]; then \
+ 			echo  "" ; \
+ 			echo  "" ; \
+@@ -151,7 +152,8 @@
+ 
+ $(extra_objs):
+ 	-@echo "Extra objs: $(extra_objs)" 
+-	-@for r in $(static_modules_path) "" ; do \
++	@set -e; \
++	for r in $(static_modules_path) "" ; do \
+ 		if [ -n "$$r" ]; then \
+ 			echo  "" ; \
+ 			echo  "Making static module $r" ; \
