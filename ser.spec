@@ -25,6 +25,10 @@ Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+# cpl - build fails
+# extcmd -  build fails
+%define exclude_modules cpl extcmd
+
 %description
 SIP Express Router (ser) is a high-performance, configurable, free SIP
 (RFC 3261) server. It can act as registrar, proxy or redirect server.
@@ -109,7 +113,7 @@ find -type d -name CVS | xargs rm -rf
 
 %build
 %{__make} all \
-	exclude_modules="" \
+	exclude_modules="%{exclude_modules}" \
 	CC="%{__cc}" \
 	PREFIX="%{_prefix}" \
 	CFLAGS="%{rpmcflags} -Wcast-align -fPIC"
@@ -119,7 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{ser,sysconfig,rc.d/init.d}
 
 %{__make} install \
-	exclude_modules="" \
+	exclude_modules="%{exclude_modules}" \
 	PREFIX="%{_prefix}" \
 	basedir=$RPM_BUILD_ROOT
 
