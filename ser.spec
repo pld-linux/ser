@@ -127,9 +127,17 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/{ser,sysconfig,rc.d/init.d}
 	PREFIX="%{_prefix}" \
 	basedir=$RPM_BUILD_ROOT
 
-for i in modules/*; do \
+%{__rm} -f $RPM_BUILD_ROOT%{_docdir}/%{name}/*
+
+for i in %{exclude_modules}; do
+	%{__rm} -f modules/$i/README
+done
+
+for i in modules/*; do
 	i=$(basename $i)
-	[ -f modules/$i/README ] && cp -f modules/$i/README README.$i; \
+	if [ -f modules/$i/README ]; then
+		cp -f modules/$i/README README.$i
+	fi
 done
 
 #cd doc/serdev
