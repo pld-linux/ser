@@ -1,7 +1,7 @@
-diff -Naur ser-0.8.10/Makefile ser-0.8.10-p/Makefile
---- ser-0.8.10/Makefile	Tue Nov 12 13:31:25 2002
-+++ ser-0.8.10-p/Makefile	Tue Jun 17 15:08:19 2003
-@@ -133,12 +133,12 @@
+diff -urN ser-0.9.6.org/Makefile ser-0.9.6/Makefile
+--- ser-0.9.6.org/Makefile	2005-11-02 18:45:38.000000000 +0100
++++ ser-0.9.6/Makefile	2007-04-10 23:07:55.468800644 +0200
+@@ -237,13 +237,13 @@
  	scripts/ser_mysql.sh create
  	-@echo "Done"
  
@@ -10,6 +10,7 @@ diff -Naur ser-0.8.10/Makefile ser-0.8.10-p/Makefile
  			$(modules-prefix)/$(modules-dir) $(doc-prefix)/$(doc-dir) \
  			$(man-prefix)/$(man-dir)/man8 $(man-prefix)/$(man-dir)/man5
  
+ 
 -$(cfg-prefix)/$(cfg-dir): 
 -		mkdir -p $(cfg-prefix)/$(cfg-dir)
 +$(cfg-dir): 
@@ -17,43 +18,53 @@ diff -Naur ser-0.8.10/Makefile ser-0.8.10-p/Makefile
  
  $(bin-prefix)/$(bin-dir):
  		mkdir -p $(bin-prefix)/$(bin-dir)
-@@ -156,11 +156,11 @@
- $(man-prefix)/$(man-dir)/man5:
+@@ -262,19 +262,19 @@
  		mkdir -p $(man-prefix)/$(man-dir)/man5
- 
+ 		
+ # note: on solaris 8 sed: ? or \(...\)* (a.s.o) do not work
 -install-cfg: $(cfg-prefix)/$(cfg-dir)
 +install-cfg: $(cfg-dir)
- 		sed -e "s#/usr/lib/ser/modules/#$(modules-target)#g" \
--			< etc/ser.cfg > $(cfg-prefix)/$(cfg-dir)ser.cfg
--		chmod 644 $(cfg-prefix)/$(cfg-dir)ser.cfg
+ 		sed -e "s#/usr/.*lib/ser/modules/#$(modules-target)#g" \
+-			< etc/ser.cfg > $(cfg-prefix)/$(cfg-dir)ser.cfg.sample
+-		chmod 644 $(cfg-prefix)/$(cfg-dir)ser.cfg.sample
++			< etc/ser.cfg > $(cfg-dir)ser.cfg.sample
++		chmod 644 $(cfg-dir)ser.cfg.sample
+ 		if [ -z "${skip_cfg_install}" -a \
+-				! -f $(cfg-prefix)/$(cfg-dir)ser.cfg ]; then \
+-			mv -f $(cfg-prefix)/$(cfg-dir)ser.cfg.sample \
+-				$(cfg-prefix)/$(cfg-dir)ser.cfg; \
++				! -f $(cfg-dir)ser.cfg ]; then \
++			mv -f $(cfg-dir)ser.cfg.sample \
++				$(cfg-dir)ser.cfg; \
+ 		fi
+ 		# radius dictionary
+-		$(INSTALL-TOUCH) $(cfg-prefix)/$(cfg-dir)/dictionary.ser 
+-		$(INSTALL-CFG) etc/dictionary.ser $(cfg-prefix)/$(cfg-dir)
 -#		$(INSTALL-CFG) etc/ser.cfg $(cfg-prefix)/$(cfg-dir)
-+			< etc/ser.cfg > $(cfg-dir)ser.cfg
-+		chmod 644 $(cfg-dir)ser.cfg
++		$(INSTALL-TOUCH) $(cfg-dir)/dictionary.ser 
++		$(INSTALL-CFG) etc/dictionary.ser $(cfg-dir)
 +#		$(INSTALL-CFG) etc/ser.cfg $(cfg-dir)
  
- install-bin: $(bin-prefix)/$(bin-dir) utils/gen_ha1/gen_ha1
- 		$(INSTALL-BIN) ser $(bin-prefix)/$(bin-dir)
-diff -Naur ser-0.8.10/Makefile.defs ser-0.8.10-p/Makefile.defs
---- ser-0.8.10/Makefile.defs	Tue Nov 12 18:21:28 2002
-+++ ser-0.8.10-p/Makefile.defs	Tue Jun 17 15:08:32 2003
-@@ -33,7 +33,7 @@
- ut-prefix = $(basedir)$(prefix)
+ install-bin: $(bin-prefix)/$(bin-dir) utils/gen_ha1/gen_ha1 utils/serunix/serunix
+ 		$(INSTALL-TOUCH) $(bin-prefix)/$(bin-dir)/ser 
+diff -urN ser-0.9.6.org/Makefile.defs ser-0.9.6/Makefile.defs
+--- ser-0.9.6.org/Makefile.defs	2006-01-11 01:25:58.000000000 +0100
++++ ser-0.9.6/Makefile.defs	2007-04-10 22:59:15.315148499 +0200
+@@ -92,7 +92,7 @@
+ CC_EXTRA_OPTS ?=
  
- # dirs
+ # dirs 
 -cfg-dir = etc/ser/
 +cfg-dir = $(basedir)/etc/ser/
  bin-dir = sbin/
  modules-dir = lib/ser/modules/
  ifeq ($(OS), linux)
-diff -Naur ser-0.8.10/Makefile.defs ser-0.8.10-p/Makefile.defs
---- ser-0.8.10/Makefile.defs	Tue Jun 17 15:12:55 2003
-+++ ser-0.8.10-p/Makefile.defs	Tue Jun 17 15:13:11 2003
-@@ -45,7 +45,7 @@
- endif
- ut-prefix = bin/
+@@ -151,7 +151,7 @@
+ 
+ 
  # target dirs for various stuff
 -cfg-target = $(prefix)/$(cfg-dir)
 +cfg-target = $(cfg-dir)
+ bin-target = $(prefix)/$(bin-dir)
  modules-target = $(prefix)/$(modules-dir)
- 
- 
+ doc-target = $(prefix)/$(doc-dir)
